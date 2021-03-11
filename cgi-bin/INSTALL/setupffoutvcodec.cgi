@@ -79,6 +79,10 @@ read CONTENT
 echo $CONTENT > $FFOUTVCODEC
 
 
+echo "<pre>$($CGIBIN_DIR/INSTALL/quicksetup.cgi)</pre>"
+echo "<pre>$($CGIBIN_DIR/INSTALL/createChannelLinks.cgi)</pre>"
+
+
 echo "<h2>Thank you.</h2>"
 echo "Serverinfo"
 echo "<pre>$(cat $FFOUTVCODEC)</pre>"
