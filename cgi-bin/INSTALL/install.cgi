@@ -33,7 +33,7 @@ echo "<br>"
 echo "When your ready."
 echo '<form action="/cgi-bin/INSTALL/setuphdhr.cgi" method="post">
   <label for="HDHR_IP">Enter your HDHOMERUN IP or will use default hdhomerun.local</label><br>
-  <input type="text" id="HDHR_IP.cgi" name="HDHR_IP" value=><br>
+  <input type="text" id="HDHR_IP.cgi" name="HDHR_IP" value="hdhomerun.local"><br>
   <input type="submit" value="Submit">
 </form>'
 
