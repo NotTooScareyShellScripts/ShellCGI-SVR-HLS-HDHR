@@ -5,19 +5,6 @@ echo "Content-type: text/html"
 echo ""
 echo "<html><head></head><body>"
 #set -e
-if [ $# -eq 0 ]; then
-    echo " "
-    echo "No arguments provided, Use: your hdhr fqdn/hostname or ip as the first argument, and port too if not the standard port 80"
-    echo "eg. use "
-    echo " "
-    echo "./quicksetup HDHR_HOSTNAME_OR_IP "
-    echo " "
-    echo "eg for a HDHR with ip:192.168.1.218"
-    echo " "
-    echo " ./quicksetup 192.168.1.218"
-    echo " "
-    exit 1
-fi
 
 if [ $(id -un) != 'www-data' ]; then
 	if [ $(id -un) != 'apache' ]; then
@@ -29,7 +16,7 @@ fi
 echo "Running as user=$(id -un)"
 echo "Okay. User check passed"
 
-HDHR_IP=$1         #enter your fqdn/ip here, append any custom port you might have as well if not on port 80.
+HDHR_IP=hdhomerun.local         #enter your fqdn/ip here, append any custom port you might have as well if not on port 80.
 
 #prelaunch check
 [[ "$(command -v bash)" ]] || { echo "bash is not installed" 1>&2 ; exit 1; }
