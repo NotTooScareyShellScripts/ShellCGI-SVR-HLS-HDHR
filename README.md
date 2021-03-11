@@ -38,7 +38,7 @@ Firefox/Vlc
 ***
 
 Another Firefox/Vlc
-![firefox-vlc2](/firefox-vlc2.png)
+![firefox-vlc3](/firefox-vlc3.png)
 
 
 
