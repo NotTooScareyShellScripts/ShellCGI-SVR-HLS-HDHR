@@ -1,5 +1,4 @@
 #!/bin/bash
-# (c) 2021-01-12 Kelsie Flynn
 # License MIT
 #install3.cgi
 echo "Content-type: text/html"

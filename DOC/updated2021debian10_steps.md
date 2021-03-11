@@ -1,4 +1,3 @@
-<sup><sub>(c) 2021-01-12 Kelsie Flynn<br>
 License MIT</sub></sup>
 
 

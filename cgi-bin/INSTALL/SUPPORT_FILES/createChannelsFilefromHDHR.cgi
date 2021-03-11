@@ -1,5 +1,4 @@
 #!/bin/bash
-# (c) 2021-01-12 Kelsie Flynn
 # License MIT
 #createChannelsFilefromHDHR.cgi
 #check for programs/cmds/utilities to be used here first or exit and suggest

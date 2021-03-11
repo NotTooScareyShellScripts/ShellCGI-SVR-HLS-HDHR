@@ -1,5 +1,4 @@
 #!/bin/bash
-# (c) 2021-01-12 Kelsie Flynn
 # License MIT
 mkdir -v /var/www/html/hls
 cd /var/www/html/hls

@@ -1,5 +1,4 @@
 #!/bin/bash
-# (c) 2021-01-12 Kelsie Flynn
 # License MIT
 
 echo "Content-type: text/html"
