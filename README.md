@@ -41,5 +41,34 @@ Another Firefox/Vlc
 ![firefox-vlc3](/firefox-vlc3.png)
 
 
+More players launched from firefox.
+***
+***
+
+gmplayer
+***
+![gmplayer](/gmplayer.png)
+
+***
+parole
+***
+![parole](/parole.png)
+
+***
+
+totem
+***
+![gmplayer](/gmplayer.png)
+
+
+
+***
+***
+Audio Only with Audacious
+***
+![audacious](/audacious.png)
+
+
+
 
 
