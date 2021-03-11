@@ -1,0 +1,55 @@
+<!--- (c) 2021-01-12 Kelsie Flynn License GPL2 -->
+<html>
+<head>
+<title>HLS Streaming Live TV</title>
+<meta http-equiv="refresh" content="300">
+<!---<meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<link rel="stylesheet" type="text/css" href="/w3.css">
+<style></style>
+</head>
+
+<body>
+
+<header>
+ <div class="w3-top">
+  <div class="w3-bar w3-dark-grey w3-card-4 ">
+   <a href="/index.html" class="w3-bar-item w3-button w3-mobile w3-xxlarge">Home</a>
+   <div class="w3-dropdown-hover">
+   <button class="w3-button w3-xxlarge">LiveTV</button>
+   <div class="w3-dropdown-content w3-bar-block w3-card-4">
+    <a href="/thumbnails.html" class="w3-bar-item w3-button w3-mobile w3-xxlarge">Direct Stream from Channel Previews</a>
+    <a href="/cgi-bin/createthumbnails.cgi" class="w3-bar-item w3-button w3-mobile w3-xxlarge">Update All Channels Previews. Then Select Channel to Stream</a>
+  </div>
+  </div>
+  <div class="w3-dropdown-hover">
+  <button class="w3-button w3-xxlarge">mp4 Videos</button>
+   <div class="w3-dropdown-content w3-bar-block w3-card-4">
+    <a href="/prevstreamed_thumbnails.html" class="w3-bar-item w3-button w3-mobile w3-xxlarge">Select/Play Directly from Video Previews</a>
+    <a href="/cgi-bin/createthumbnails_prevstreamed.cgi" class="w3-bar-item w3-button w3-mobile w3-xxlarge">Scan4New/Update Video Previews before Selection</a>
+  </div>
+  </div>
+  <div class="w3-dropdown-hover">
+  <button class="w3-button w3-xxlarge">HDHomeRun</button>
+   <div class="w3-dropdown-content w3-bar-block w3-card-4">
+    <a target="_blank" rel="noopener noreferrer" href="http://192.168.1.162:8888" class="w3-bar-item w3-button w3-mobile w3-xxlarge">Web Device Home Page</a>
+    <a href="http://192.168.1.162:8888/lineup_status.json" class="w3-bar-item w3-button w3-mobile w3-xxlarge">HDHR-LineupStatus</a>
+    <a target="_blank" rel="noopener noreferrer" href="http://192.168.1.162:8888/lineup.post?scan=start" class="w3-bard-item w3-button w3-mobile w3-xxlarge">HDHR-ScanChannels</a>
+  </div>
+  </div>
+  <div class="w3-dropdown-hover">
+  <button class="w3-button w3-xxlarge">MythTV</button>
+   <div class="w3-dropdown-content w3-bar-block w3-card-4">
+    <a href="#" class="w3-bar-item w3-button"></a>
+    <a target="_blank" rel="noopener noreferrer" href="http://192.168.1.162:6544" class="w3-bar-item w3-button w3-mobile w3-xxlarge">MythTV-Server</a>
+    <a target="_blank" rel="noopener noreferrer" href="http://192.168.1.162:6544/tv/guide.qsp"class="w3-bar-item w3-button w3-mobile w3-xxlarge">MythTV-ProgramGuide</a>
+   </div>
+  </div>
+ </div>
+</header>
+
+<!--- 1px solid green -->
+<div class="w3-container w3-black">
+<iframe src="/cgi-bin/ffmpegprocs.cgi" title="current ffmpeg processes running" height="100%" width="100%" allowfullscreen="true" style="border:none;"><!-- //required for browser compatibility --></iframe>
+</div>
+</body>
+</html>

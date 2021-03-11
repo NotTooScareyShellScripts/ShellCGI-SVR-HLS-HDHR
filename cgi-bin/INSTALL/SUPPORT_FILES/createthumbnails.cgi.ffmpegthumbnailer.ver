@@ -1,0 +1,278 @@
+#!/bin/bash
+# (c) 2021-01-12 Kelsie Flynn
+# License GPL2
+#createthumbnails.cgi
+echo "Content-type: text/html"
+echo ""
+echo "<html>"
+echo "<head>"
+echo "<title>Create LiveTV Thumbnails</title>"
+echo "<link rel="stylesheet" type="text/css" href="/w3.css">"
+echo "<style>"
+echo ".button1 {background-color: #4CAF50;}"
+echo "body {
+  background-color: black;
+  color: green;
+}"
+echo "h3 {text-align: left;}"
+echo "h4 {text-align: center;}"
+echo "p {text-align: center;}"
+echo "p1 {text-align: left;}"
+echo "div {text-align: center;}"
+echo "</style>"
+echo "<meta http-equiv='refresh' content='5;url=/thumbnails.html'>"
+echo "</head>"
+echo "<body>"
+
+echo "<h2>"
+#
+#echo "<header>
+# <div class="w3-top">
+#  <div class="w3-bar w3-dark-grey w3-card-4 ">
+#   <a href="/index.html" class="w3-bar-item w3-button w3-mobile w3-xxlarge">Home</a>
+#  </div>
+# </div>
+#</header>"
+echo "</h2>"
+echo "<br>"
+echo "<br>"
+echo "<br>"
+
+
+echo "<div style="text-align:center">"
+. $(dirname "$0")/HDHR_IP.cgi
+. $(dirname "$0")/HDHR_PORT.cgi
+. $(dirname "$0")/HDHR_TUNER.cgi
+. $(dirname "$0")/HLS_SERVER.cgi
+. $(dirname "$0")/HLS_DIR.cgi
+. $(dirname "$0")/HTML_DIR.cgi
+. $(dirname "$0")/THUMBNAIL_DIR.cgi
+
+FFMPEGTHUMBNAILER=/usr/bin/ffmpegthumbnailer
+#CHANNELS.TXT=$HTML_DIR/channels.txt
+THUMBNAILSIZE=512 #0 is full size, 128 is default
+#DATESTAMP ON THUMBS WHEN CREATED
+TNDATE=`date +%Y%m%d-%H.%M%p`
+
+#what host os?
+#this sets up our CGIBIN_DIR and APACHE_USER
+if [ $(uname) = 'Linux' ]; then
+        #which apache or httpd?
+        if [ -f /etc/debian_version ]; then
+                echo "<div>"
+                echo "Debian based OS"
+                echo "<br>"
+                echo "$(cat /etc/debian_version)"
+                echo "<br>"
+                echo "CGIBIN_DIR='/usr/lib/cgi-bin'"
+                echo "<br>"
+                echo "APACHE_USER='www-data'"
+                CGIBIN_DIR='/usr/lib/cgi-bin'
+                APACHE_USER='www-data'
+                echo "OS Test Passed"
+                echo "</div>"
+        elif [ -f /etc/redhat-release ];then
+                echo "<div>"
+                echo "RedHat based OS"
+                echo "<br>"
+                echo "$(cat /etc/redhat-release)"
+                echo "<br>"
+                echo "CGIBIN_DIR='/var/www/cgi-bin'"
+                echo "<br>" 
+                echo "APACHE_USER='apache'"
+                echo "<br>"
+                CGIBIN_DIR='/var/www/cgi-bin'
+                APACHE_USER='apache'
+                echo "OS Test Passed"
+                echo "</div>"
+        else
+                echo "Unknown Linux"
+                echo "<br>"
+                echo "OS Test FAILED"
+                echo "<br>"
+                echo "CANT SET CGIBIN_DIR and APACHE_USER"
+                exit 1
+        fi
+else
+        echo "Unknown OS"
+        echo "OS Test FAILED"
+        exit 1
+fi
+
+#echo $APACHE_USER
+
+#First check to make sure ffmpeg is NOT running as apache/httpd user process spawned from PPID=1
+pgrep ffmpeg -u $APACHE_USER -P 1
+retval=$?
+if [ $retval -ne 1 ]; then
+    	echo "Return Value retval=$retval"
+	echo "<h1>WARNING!</h1>"
+	echo "<br>"
+	echo "<h2>FFmpeg already running, ignoring new preview request.</h2>"
+	echo "<br>"
+	echo "<h2><a href=/index.html>Return to index</a></h2>"
+	echo "</div>"
+	echo "</body></html>"
+	exit 1
+else
+	#echo "Our Test retval= echo $reval"
+	echo "Processing Request, Standby..."
+fi
+echo "</h2><br>"
+#clean stale targetdir png's each time we kick this off and make it this far.
+if [ -d $THUMBNAIL_DIR ]; then
+	echo "Cleaning Stale Images from Targetdir."
+	find $THUMBNAIL_DIR -name '[[:digit:]]*'.png -exec rm -rf $THUMBNAIL_DIR/*.png {} \; 
+	echo "Cleaning done."
+else
+	 mkdir -pv $THUMBNAIL_DIR
+fi
+
+#if not already exists, make our dir
+[ -d $HLS_DIR ] || mkdir -pv $HLS_DIR
+
+cd $HLS_DIR
+
+#terminate any stale procs we own
+echo "Killing any stale ffmpegthumbnailer processes if any"
+echo "<hr>"
+echo "<br>"
+killall -u $APACHE_USER ffmpegthumbnailer &>/dev/null
+sleep 1
+
+
+echo "<h2>Starting Preview Creation...Please wait</h2>"
+echo "<pre>$(printf "\n")</pre>"
+channeln=0
+for channeln in $(ls -dv *[[:digit:]].[[:digit:]] 2>/dev/null);do
+#for channeln in $(ls -v 2>/dev/null);do 
+        echo "Processing Request for Channel=$channeln, Standby..."
+	echo " "
+	ffmpegthumbnailer -f -i http://"$HDHR_IP:$HDHR_PORT/$HDHR_TUNER/v$channeln" -t0 -s$THUMBNAILSIZE -o $THUMBNAIL_DIR/$channeln.png &>/dev/null
+	retvalcn=$?
+	if [ $retvalcn -eq 0 ]; then
+		echo "<br>"
+        	#echo "Channeln Return Value retvalcn=$retvalcn"
+		echo "<div class="w3-text-white">"
+		echo "<h6>"Channel $channeln.png Preview Image 100% Done."</h6>"
+		echo "<br>"
+		echo "<br>"
+		echo "</div>"
+	else
+		echo "<h2><div class="w3-text-red">"
+	        echo "<h1>WARNING!</h1>"
+		echo "<h2>FfmpegThumbnailer Return Value=$retvalcn, is not=0. Ignoring new preview request.</h2>"
+		echo "<br>"
+        	echo "<h2>HDHR TUNER=http://$HDHR_IP:$HDHR_PORT/$HDHR_TUNER/v$channeln reported BUSY</h2>"
+		echo "<br>"
+        	echo "</div>"
+
+		echo "<div class="w3-text-white">"
+        	echo "<pre>Returning to index automatically </pre>"
+        	echo "</div>"
+		#this override is needed for refresh in this case to detect when a hdhr is busy.
+		#when busy, without this check scripts will create 0 byte files and links to 0 byte files
+		#the default above when tuner is available is to direct user to /thumbnails.html 
+		#the override pushes user back to index.html
+		echo "<head>"
+		echo "<meta http-equiv='refresh' content='4;url=/index.html'>"
+		echo "</head>"
+        	echo "</div></h2>"
+        	echo "</body></html>"
+        	exit 1
+	fi
+done
+
+	echo "<pre>$(unset 'channeln')</pre>"
+	echo "<hr>"
+	echo "<br>"
+	echo "<h2><div class="w3-text-yellow">"
+	echo "Preview Image generation of Channels Done!"
+	echo "</div></h2>"
+	echo "<br>"
+
+
+#DYNAMIC HTML START
+#This opens and writes the initial templated html out to >> /thumbnails.html           #soon to be /previews.html
+echo '<html>
+ <head>
+  <title>LiveTV Last Previews</title>
+  <link rel="stylesheet" type="text/css" href="/w3.css">
+  <meta http-equiv="refresh" content="300;URL=/index.html">
+  <style>body {
+  	background-color: black;
+  	color: green;
+	}	
+  </style></head><body>'>$HTML_DIR/thumbnails.html
+
+#This writes(appends) out our header that has our bar at top
+
+echo '<header>
+ <div class="w3-top">
+  <div class="w3-bar w3-dark-grey w3-card-4 ">
+   <a href="/index.html" class="w3-bar-item w3-button w3-mobile w3-xxlarge">Home</a>
+   <div class="w3-dropdown-hover">
+   <button class="w3-button w3-xxlarge">LiveTV</button>
+   <div class="w3-dropdown-content w3-bar-block w3-card-4">
+    <a href="/thumbnails.html" class="w3-bar-item w3-button w3-mobile w3-xxlarge">Direct Stream from Channel Previews</a>
+    <a href="/cgi-bin/createthumbnails.cgi" class="w3-bar-item w3-button w3-mobile w3-xxlarge">Update All Channels Previews. Then Select Channel to Stream</a>
+  </div>
+  </div>
+  <div class="w3-dropdown-hover">
+  <button class="w3-button w3-xxlarge">mp4 Videos</button>
+   <div class="w3-dropdown-content w3-bar-block w3-card-4">
+    <a href="/prevstreamed_thumbnails.html" class="w3-bar-item w3-button w3-mobile w3-xxlarge">Select/Play Directly from Video Previews</a>
+    <a href="/cgi-bin/createthumbnails_prevstreamed.cgi" class="w3-bar-item w3-button w3-mobile w3-xxlarge">Scan4New/Update Video Previews before Selection</a>
+  </div>
+  </div>
+  <div class="w3-dropdown-hover">
+  <button class="w3-button w3-xxlarge">HDHomeRun</button>
+   <div class="w3-dropdown-content w3-bar-block w3-card-4">
+    <a target="_blank" rel="noopener noreferrer" href="http://HDHR-01234567" class="w3-bar-item w3-button w3-mobile w3-xxlarge">Web Device Home Page</a>
+    <a href="http://192.168.1.218/lineup_status.json" class="w3-bar-item w3-button w3-mobile w3-xxlarge">HDHR-LineupStatus</a>
+    <a target="_blank" rel="noopener noreferrer" href="http://HDHR-01234567/lineup.post?scan=start" class="w3-bard-item w3-button w3-mobile w3-xxlarge">HDHR-ScanChannels</a>
+  </div>
+  </div>
+  <div class="w3-dropdown-hover">
+  <button class="w3-button w3-xxlarge">MythTV</button>
+   <div class="w3-dropdown-content w3-bar-block w3-card-4">
+    <a href="#" class="w3-bar-item w3-button"></a>
+    <a target="_blank" rel="noopener noreferrer" href="http://MYTHTVSERVER.LOCALDOMAIN:6544" class="w3-bar-item w3-button w3-mobile w3-xxlarge">MythTV-Server</a>
+    <a target="_blank" rel="noopener noreferrer" href="http://MYTHTVSERVER.LOCALDOMAIN:6544/tv/guide.qsp"class="w3-bar-item w3-button w3-mobile w3-xxlarge">MythTV-ProgramGuide</a>
+   </div>
+  </div>
+ </div>
+</header>'>>$HTML_DIR/thumbnails.html
+
+#This finds channel numbers from directory names in HLS and loops through them and creates the links
+#for the html to start the streams, then writes(appends) it out to >> /thumbnails.html #soon to be /previews.html
+channeln=0
+#
+#the ls -v sorts the channels by itself
+echo "<pre>"
+for channeln in $(ls -dv *[[:digit:]].[[:digit:]] 2>/dev/null);do
+#for channeln in $(ls -v);do
+echo '<br>
+<br>
+<br>
+<br>
+<div style="text-align:center">
+ <a href="http://'$HLS_SERVER'/cgi-bin/'$channeln'.cgi" class="button1"><img src="/thumbnails/'$channeln'.png" alt="'$channeln'.png"><!--- COMPAT --></a>
+ <h1>'ch$channeln-$TNDATE'</h1>
+ <hr><br>
+</div>
+<br>'>>$HTML_DIR/thumbnails.html
+done
+echo "</pre>"
+unset 'channeln'
+
+#This writes out and finalizes the /thumbnail.html page.
+echo "</body></html>">>$HTML_DIR/thumbnails.html
+#DYNAMIC HTML END
+
+echo "<hr>"
+#The following html closes this page out.
+echo "</div>"
+echo "</h2>"
+echo "</body></html>"
+#createthumbnails.cgi 

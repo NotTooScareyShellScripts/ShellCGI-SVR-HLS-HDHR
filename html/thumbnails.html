@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>init cgi/createthumbnails</title>
+<style>
+body {
+  	background-color: black;
+  	color: green;
+	}	
+</style>
+<link rel="stylesheet" type="text/css" href="/w3.css">
+<meta http-equiv='Cache-Control' content='no-cache' />
+<meta http-equiv='pragma' content='no-cache' />
+<meta http-equiv='refresh' CONTENT='10;url=/cgi-bin/createthumbnails.cgi' />
+</head>
+<body>
+	<h1>DEVTESTING THIS ONLY WORKS IF TUNER IS NOT BUSY and createthumbnails.cgi can start Generally on a new install this isnt a issue. But devices
+		could be sharing and this would block the install until the tuner becomes avail. Need to report back the error here. This page will
+		keep trying based on the CONTENT refresh value. Apache would likely timeout after x  minutes, but something needs to catch this earlier.</h1>
+		I may omit this step due to its dependence on tuner availabilty that could cause a loop, and just run the preview scan at install time once
+		to populate. This is all about the first run to populate thumbmails and html so the pages exist prior to using using menu.
+		The mp4 method of using template can stay because it will doesnt depend on tuner availability and running it early would just make a blank page.
+		
+		<h1>: Starting initial thumbnail creation. Please wait.</h1>
+	<h2><i>This could be done in a few seconds or a few minutes, depending on how many channels you have available.</i></h2>
+</body>
+</html>
