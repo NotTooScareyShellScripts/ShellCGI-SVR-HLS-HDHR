@@ -1,6 +1,6 @@
 #!/bin/bash
-# (c) 2021-01-12 Kelsie Flynn
-# License GPL2
+# (c) 2021-03-10
+# License MIT
 #ffmpegprocs.cgi
 set -o posix
 . $(dirname "$0")/HDHR_IP.cgi
