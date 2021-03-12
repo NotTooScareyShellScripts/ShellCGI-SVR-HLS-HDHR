@@ -303,7 +303,9 @@ for channeln in ${charray[@]};do
 				echo "<br>"
 				echo "<h4><div class="w3-text-orange"</h4>"
         			echo "<h4>ERROR:Preview Generation for $channeln has failed $ilerrcount times.</h4>"
-        			echo "<h4>echo removing  ERRORED $channeln array reference</h4>"
+				TUNER1SIGNALSTATUS=$(curl -s hdhomerun.local/status.json | jq -r '.[1].SignalStrengthPercent')
+        			echo "<h4> Channel $channeln has Signal Strength Percentage=$TUNER1SIGNALSTATUS</h4>"
+				echo "<h4>Simulating removal of  ERRORED $channeln array reference</h4>"
 				#not unset sets the ref to null but keep indexes without reordering
 				#watch out for trailing spaces that may need to be trimmed 
 				#echo "<pre>$(unset charray[$channeln])</pre>"
