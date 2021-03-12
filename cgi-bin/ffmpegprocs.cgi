@@ -38,31 +38,20 @@ if [ $(uname) = 'Linux' ]; then
         printf "<br>"
         printf "<br>"
         if [ -f /etc/debian_version ]; then
-                echo "Debian based OS"
+		echo "Debian based OS"
                 echo "<br>"
-		echo "v$(cat /etc/debian_version)"
-                echo "<br>"
-                #echo "CGIBIN_DIR='/usr/lib/cgi-bin'"
-                #echo "<br>"
-                #echo "APACHE_USER='www-data'"
-                #echo "<br>"
+	       	echo "v$(cat /etc/debian_version)-$(lsb_release -sc)"
                 CGIBIN_DIR='/usr/lib/cgi-bin'
                 APACHE_USER='www-data'
-                #echo "OS Test Passed"
         elif [ -f /etc/redhat-release ];then
                 echo "RedHat based OS"
                 echo "<br>"
-		echo "v$(cat /etc/redhat-release)"
+		echo "$(cat /etc/redhat-release)"
                 echo "<br>"
-                #echo "CGIBIN_DIR='/var/www/cgi-bin'"
-                #echo "<br>"
-                #echo "APACHE_USER='apache'"
-                #echo "<br>"
                 CGIBIN_DIR='/var/www/cgi-bin'
                 APACHE_USER='apache'
-                #echo "OS Test Passed"
         else
-                echo "Unknown Linux"
+                echo "Undefined Linux"
                 echo "OS Test FAILED"
                 echo "CANT SET CGIBIN_DIR and APACHE_USER"
                 echo "</div>"
@@ -76,7 +65,8 @@ else
         echo "</body></html>"
         exit 1
 fi
-echo "<pre>Using Device HDHR@$HDHR_IP</pre>"
+echo "<div class="w3-text-light-green">"
+echo "<pre>Using HDHR Device at: $HDHR_IP</pre>"
 echo "</div>"
 #even though we use a specific primary stream binary now of ffmpeg (hls_stream_hdhr). 
 #We still use ffmpeg as well for now for the m3u8>mp4 conversions.
