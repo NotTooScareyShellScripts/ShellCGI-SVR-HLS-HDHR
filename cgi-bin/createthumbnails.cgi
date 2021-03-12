@@ -1,4 +1,5 @@
 #!/bin/bash
+# (c) 2021-01-12 Kelsie Flynn
 # License GPL2
 set -o posix
 echo 'Content-type: text/html'
@@ -113,24 +114,34 @@ echo "<pre>$(cat $CHANNELSTXT|wc -l) channels</pre>"
 echo "<pre>1st channel is $(echo $CH1) </pre>"
 echo "<pre>Testing first channel: $CH1</pre>"
 #timeout -k3 -s9 10 ffprobe http://$HDHR_IP:5004/$HDHR_TUNER/v$CH1 &>/dev/null
+
+
+TUNER1VCTSTATUS=$(curl -s hdhomerun.local/status.json | jq -r '.[1].VctNumber')
+TUNER1IPSTATUS=$(curl -s hdhomerun.local/status.json | jq -r '.[1].TargetIP')
+
 echo "<pre>$(/usr/bin/ffprobe -v error http://$HDHR_IP:5004/$HDHR_TUNER/v$CH1 &>/dev/null)</pre>"
 FFPRETVAL=$?
 	echo "</div>"
 
-#First check to make sure hls_stream_hdhr is NOT running as apache/httpd user process spawned from PPID=1
+#First check to make sure hls_stream_hdhr is NOT running
 #echo "pid of hls_stream_hdhr, if any:"
-pgrep hls_stream_hdhr -u $APACHE_USER -P 1 &>/dev/null
+pgrep hls_stream_hdhr -u $APACHE_USER &>/dev/null
 retval=$?
-if [ $retval -ne 1 ]; then
+if [ $retval -ne 1 ] || [ $TUNER1VCTSTATUS != 'null' ]; then
         echo "<div>"
     	echo "Return Value retval=$retval"
 	echo "<h4>WARNING!</h4>"
 	echo "<br>"
-	echo "<h4>FFmpeg already running, ignoring new preview request.</h4>"
+	echo "<div class="w3-text-red">"
+	echo "<h4>FFmpeg or Tuner1 already busy/resource locked, running with channel=$TUNER1VCTSTATUS on HOST=$TUNER1IPSTATUS, ignoring new preview request.</h4>"
+	echo "</div>"
 	echo "<br>"
 	echo "<h4><a href=/index.html>Return to index</a></h4>"
-	echo "</div>"
+	echo "<head>"
+	echo "<meta http-equiv='refresh' content='2;url=/index.html'>"
+	echo "</head>"
 	echo "</body></html>"
+	echo "</div>"
 	exit 1
 
 elif [ $FFPRETVAL -ne '0' ];then
@@ -140,6 +151,9 @@ elif [ $FFPRETVAL -ne '0' ];then
 	echo "exiting with ERROR"
 	echo "<br>"
 	echo "<h4><a href=/index.html>Return to index</a></h4>"
+	echo "<head>"
+	echo "<meta http-equiv='refresh' content='1;url=/index.html'>"
+	echo "</head>"
 	echo "</div>"
 	echo "</body></html>"
 	exit 1
