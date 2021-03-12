@@ -1,9 +1,7 @@
-/.*
 /*
 /*/
-/*.png
-/README.md
-!/.git
+*.png
+PNGS
 !/.gitignore
 !/LICENSE
 !/DOC/
