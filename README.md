@@ -8,6 +8,15 @@ Note: Any code/scripts/binaries not my own, have their own respective licenses.
 ***
 
 
+*new hdhr tuner status detection routines
+![chromium1](/PNGS/chromium1.png)
+
+***
+![chromium2](/PNGS/chromium2.png)
+
+***
+***
+
 ![queue](/PNGS/queue.png)
 
 ***
