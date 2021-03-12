@@ -19,7 +19,7 @@ Note: Any code/scripts/binaries not my own, have their own respective licenses.
 
 
 ***
-These are older builds, but still valid minus newer some features.
+These screenshots below are from older builds, but still valid for demonstration.
 ***
 ***
 
