@@ -17,6 +17,9 @@ Note: Any code/scripts/binaries not my own, have their own respective licenses.
 *different hls server RHEL Based (162) that shares that same hdhr/tuner1
 ![chromium2](/PNGS/chromium2.png)
 
+
+***
+These are older builds, but still valid minus newer some features.
 ***
 ***
 
