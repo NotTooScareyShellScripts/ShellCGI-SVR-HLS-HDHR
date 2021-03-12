@@ -33,9 +33,6 @@ echo "<div>"
 [[ "$(command -v bash)" ]] || { echo "bash is not installed" 1>&2 ; exit 1; }
 
 
-
-[[ "$(command -v hls_stream_hdhr)" ]] || { echo "hls_stream_hdhr is not installed" 1>&2 ; exit 1; }
-
 #what host os?
 #this sets up our CGIBIN_DIR and APACHE_USER
 if [ $(uname) = 'Linux' ]; then
@@ -84,6 +81,12 @@ echo "</div>"
 
 
 echo "<div>"
+
+
+[[ $(command -v $CGIBIN_DIR/hls_stream_hdhr) ]] || { echo "hls_stream_hdhr is not installed  $CGIBIN_DIR" 1>&2 ; exit 1; }
+
+
+
 
 . $(dirname "$0")/HDHR_IP.cgi #hdhr ip/hostname/fqdn referenced from external file
 . $(dirname "$0")/HDHR_TUNER.cgi #hdhr tuner reference
