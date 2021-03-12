@@ -83,7 +83,8 @@ echo "<pre>$($CGIBIN_DIR/INSTALL/quicksetup.cgi)</pre>"
 echo "<pre>$($CGIBIN_DIR/INSTALL/createChannelLinks.cgi)</pre>"
 
 echo "Copying over ffmpeg binary hls_stream_hdhr"
-cp -av $(which ffmpeg) $CGIBIN_DIR
+cp -av $(which ffmpeg) $CGIBIN_DIR/hls_stream_hdhr
+chmod +x $CGIBIN_DIR/hls_stream_hdhr
 
 
 echo "<h2>Thank you.</h2>"
