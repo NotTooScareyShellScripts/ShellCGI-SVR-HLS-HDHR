@@ -255,7 +255,7 @@ if [ $retval -eq 1 ]; then
 			fi
 		done 2>/dev/null)</i></small></pre>"
 	else
-		echo "conversion error re-test count conv_errcount=$conv_errcount at maximum "
+		echo "No playlist.m3u8 files found. Fresh install?"
 	fi	
 	#if you want to use the HLS single_file segment option and you have it configured in channel.cmd.template as playlist.mp4
 	#if single_file is enabled stop cut/commenting here
