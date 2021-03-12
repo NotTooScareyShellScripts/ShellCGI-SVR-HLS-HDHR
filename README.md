@@ -8,37 +8,37 @@ Note: Any code/scripts/binaries not my own, have their own respective licenses.
 ***
 
 
-![queue](/queue.png)
+![queue](/PNGS/queue.png)
 
 ***
 
-![inqueue](/inqueue.png)
+![inqueue](/PNGS/inqueue.png)
 
 ***
 
-![watch](/watch.png)
+![watch](/PNGS/watch.png)
 
 
 ***
-![Safari](/safari.png)
+![Safari](/PNGS/safari.png)
 
 
 
 ***
 Testing Server: on macos 11.x on M1
 
-![BigSur](/bigsur.png)
+![BigSur](/PNGS/bigsur.png)
 
 ***
 
 ***
 Firefox/Vlc
-![firefox-vlc1](/firefox-vlc1.png)
+![firefox-vlc1](/PNGS/firefox-vlc1.png)
 
 ***
 
 Another Firefox/Vlc
-![firefox-vlc3](/firefox-vlc3.png)
+![firefox-vlc3](/PNGS/firefox-vlc3.png)
 
 
 More players launched from firefox.
@@ -47,18 +47,18 @@ More players launched from firefox.
 
 gmplayer
 ***
-![gmplayer](/gmplayer.png)
+![gmplayer](/PNGS/gmplayer.png)
 
 ***
 parole
 ***
-![parole](/parole.png)
+![parole](/PNGS/parole.png)
 
 ***
 
 totem
 ***
-![totem](/totem.png)
+![totem](/PNGS/totem.png)
 
 
 
@@ -66,7 +66,7 @@ totem
 ***
 Audio Only with Audacious
 ***
-![audacious](/audacious.png)
+![audacious](/PNGS/audacious.png)
 
 
 
