@@ -69,8 +69,13 @@ echo "<div class="w3-text-light-green">"
 echo "<pre>Configured to use HDHR Device at: $HDHR_IP</pre>"
 TUNER1VCTSTATUS=$(curl -s hdhomerun.local/status.json | jq -r '.[1].VctNumber')
 TUNER1IPSTATUS=$(curl -s hdhomerun.local/status.json | jq -r '.[1].TargetIP')
-if ([ $TUNER1VCTSTATUS != 'null' ] | [ $TUNER1IPSTATUS != $HLS_SERVER ]);then
+if [ $TUNER1VCTSTATUS = null ] | [ $TUNER1IPSTATUS = null ];then
+	echo "<pre>$(echo Tuner1 is available)</pre>"
+
+elif [ $TUNER1VCTSTATUS != null ] | [ $TUNER1IPSTATUS != null ] | [ $TUNER1IPSTATUS != $HLS_SERVER ];then
+	echo "<div class="w3-text-red">"
 	echo "Configured Device busy/resource locked with Channel=$TUNER1VCTSTATUS for Host with IP=$TUNER1IPSTATUS"
+	echo "</div>"
 fi
 echo "</div>"
 #even though we use a specific primary stream binary now of ffmpeg (hls_stream_hdhr). 
