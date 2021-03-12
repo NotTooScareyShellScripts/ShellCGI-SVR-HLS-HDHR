@@ -12,6 +12,8 @@ Note: Any code/scripts/binaries not my own, have their own respective licenses.
 ![chromium1](/PNGS/chromium1.png)
 
 ***
+
+*different hls server (172) that shares that same hdhr/tuner1
 ![chromium2](/PNGS/chromium2.png)
 
 ***
