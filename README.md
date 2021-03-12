@@ -9,12 +9,12 @@ Note: Any code/scripts/binaries not my own, have their own respective licenses.
 
 
 *new hdhr tuner status detection routines
-*Stream started on (172)
+*Stream started on Debian Server (172)
 ![chromium1](/PNGS/chromium1.png)
 
 ***
 
-*different hls server (162) that shares that same hdhr/tuner1
+*different hls server RHEL Based (162) that shares that same hdhr/tuner1
 ![chromium2](/PNGS/chromium2.png)
 
 ***
