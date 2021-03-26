@@ -48,8 +48,8 @@ echo $APACHE_USER
 ISRUNNINGPID='pgrep -x hls_stream_hdhr -u '$APACHE_USER' '
 if [ ! -z $($ISRUNNINGPID) ];then 
 	echo "HAS PID, $($ISRUNNINGPID), terminating it"
-	#kill -n 9 $($ISRUNNINGPID) 2>/dev/null
-	kill -n 15 $($ISRUNNINGPID) 2>/dev/null
+	kill -n 9 $($ISRUNNINGPID) 2>/dev/null
+	#kill -n 15 $($ISRUNNINGPID) 2>/dev/null
 else
 	echo "no such PID to terminate"
 fi
